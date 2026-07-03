@@ -30,6 +30,11 @@ pub fn apply(contract: &mut KpiContract, action: &RerunAction) {
                 upsert_constraint(contract, metric, op, value);
             }
         }
+        RerunKind::ChangePrice => {
+            if let (Some(element), Some(usd_per_t)) = (&p.element, p.usd_per_t) {
+                contract.prices_usd_per_t.insert(element.clone(), usd_per_t);
+            }
+        }
     }
 }
 

@@ -1,20 +1,34 @@
-//! HTTP-DTO входа. Тела ответов — типы `contracts`, повторно не объявляются.
+//! HTTP-DTO входа/обёртки ответа. Тела портфеля/гипотез — типы `contracts`.
 
-use contracts::KpiContract;
-use serde::Deserialize;
+use contracts::{BoardResponse, KpiContract, RerunAction};
+use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize)]
 pub struct RunRequest {
-    pub kpi_contract: KpiContract,
+    pub factory_id: String,
     #[serde(default)]
     pub pack_id: Option<String>,
+    /// Опционален — дефолтный контракт по factory_id, если не задан.
+    #[serde(default)]
+    pub kpi_contract: Option<KpiContract>,
+}
+
+/// Обёртка ответа `POST /run` — `{ run_id, board }` (HTTP-шов web ↔ platform).
+#[derive(Serialize)]
+pub struct RunResponse {
+    pub run_id: String,
+    pub board: BoardResponse,
 }
 
 #[derive(Deserialize)]
 pub struct BoardQuery {
-    // Часть контракта `GET /board?run_id=...`; принимается, но пока не влияет на
-    // выборку (отдаётся последний прогон) — поведение сохранено как было.
     #[serde(default)]
-    #[allow(dead_code)]
     pub run_id: Option<String>,
+}
+
+#[derive(Deserialize)]
+pub struct RerunRequest {
+    #[serde(default)]
+    pub run_id: Option<String>,
+    pub action: RerunAction,
 }

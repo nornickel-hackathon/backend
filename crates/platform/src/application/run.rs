@@ -1,27 +1,60 @@
-//! Use case `POST /run`: загрузить extract, провалидировать, построить граф,
-//! прогнать engine, зафиксировать snapshot и сохранить прогон.
+//! Use case `POST /run`: загрузить extract + диагностику + конфиг фабрики,
+//! проаннотировать граф (addressable_tons / доступность рычагов), прогнать engine,
+//! зафиксировать snapshot и сохранить прогон. Возвращает `{ run_id, board }`.
 
 use contracts::{ApiError, BoardResponse, KpiContract};
 use serde_json::Value;
 
+use crate::application::benchmark::load_experts;
 use crate::application::error::UseCaseError;
-use crate::application::ports::{ExtractSource, PackRepository, RunRepository};
+use crate::application::ports::{
+    DiagnosticsSource, ExpertHypothesesGateway, ExtractSource, FactoryRepository, PackRepository,
+    RunRepository,
+};
 use crate::application::run_record::RunRecord;
-use crate::domain::{snapshot, validation};
+use crate::domain::{annotate, benchmark, snapshot, validation};
 
 pub struct RunInput {
-    pub kpi_contract: KpiContract,
+    pub factory_id: String,
     pub pack_id: Option<String>,
+    /// Опционален — если пусто, берётся дефолтный контракт по `factory_id`.
+    pub kpi_contract: Option<KpiContract>,
 }
 
+pub struct RunOutput {
+    pub run_id: String,
+    pub board: BoardResponse,
+}
+
+#[allow(clippy::too_many_arguments)]
 pub fn execute(
     extract_source: &dyn ExtractSource,
+    diagnostics_source: &dyn DiagnosticsSource,
+    factories: &dyn FactoryRepository,
     packs: &dyn PackRepository,
+    experts_gw: &dyn ExpertHypothesesGateway,
     runs: &dyn RunRepository,
     input: RunInput,
-) -> Result<BoardResponse, UseCaseError> {
-    let extract = extract_source.load().map_err(UseCaseError::Internal)?;
+) -> Result<RunOutput, UseCaseError> {
+    let mut extract = extract_source.load().map_err(UseCaseError::Internal)?;
     validation::validate(&extract).map_err(UseCaseError::Validation)?;
+
+    let diagnostics = diagnostics_source
+        .load(&input.factory_id)
+        .map_err(UseCaseError::Internal)?;
+    let factory = factories
+        .load(&input.factory_id)
+        .map_err(UseCaseError::Internal)?;
+
+    let mut contract = input
+        .kpi_contract
+        .unwrap_or_else(|| annotate::default_contract(&input.factory_id));
+    if contract.factory_id.is_empty() {
+        contract.factory_id = input.factory_id.clone();
+    }
+
+    // Проаннотировать граф диагностикой и доступностью оборудования.
+    annotate::annotate(&mut extract, &diagnostics, &factory);
 
     let graph = engine::Graph::build(&extract).map_err(|m| {
         UseCaseError::Validation(ApiError::new("VALIDATION_ERROR", m, Value::Null))
@@ -30,18 +63,25 @@ pub fn execute(
     let pack_id = input.pack_id.unwrap_or_else(|| extract.pack_id.clone());
     let pack = packs.load(&pack_id).map_err(UseCaseError::Internal)?;
 
-    let mut board = engine::discover(&graph, &input.kpi_contract, &pack);
-    let snap = snapshot::snapshot_of(&extract);
+    let mut board = engine::discover(&graph, &contract, &pack);
+    let snap = snapshot::snapshot_of(&extract, &input.factory_id);
     board.snapshot = snap.clone();
+    board.diagnostics = diagnostics.clone();
 
+    // Бенчмарк против экспертов: заполнить expert_match у гипотез.
+    let experts = load_experts(experts_gw);
+    benchmark::match_experts(&mut board.hypotheses, &extract.entities, &experts, &contract.factory_id);
+
+    let run_id = runs.next_run_id();
     runs.store(RunRecord {
-        run_id: format!("run_{}", snap.hash),
+        run_id: run_id.clone(),
         extract,
+        diagnostics,
         snapshot: snap,
         pack,
-        contract: input.kpi_contract,
+        contract,
         board: board.clone(),
     });
 
-    Ok(board)
+    Ok(RunOutput { run_id, board })
 }

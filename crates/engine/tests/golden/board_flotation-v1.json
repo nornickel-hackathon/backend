@@ -1,0 +1,747 @@
+{
+  "snapshot": {
+    "id": "",
+    "hash": "",
+    "pack_id": "flotation-v1"
+  },
+  "kpi_contract": {
+    "factory_id": "kgmk",
+    "target": {
+      "metric": "recoverable_losses_element_28",
+      "direction": "decrease",
+      "minimum_delta_percent": 10.0
+    },
+    "constraints": [
+      {
+        "metric": "capex_class",
+        "op": "<=",
+        "value": 3.0,
+        "unit": "class"
+      }
+    ],
+    "prices_usd_per_t": {
+      "element_28": 16500.0,
+      "element_29": 9500.0
+    },
+    "weights_override": {},
+    "excluded_factors": []
+  },
+  "diagnostics": {
+    "factory_id": "",
+    "pack_id": "",
+    "source_file": "",
+    "sections": [],
+    "totals": {
+      "tails_smt": null,
+      "element_28": {
+        "pct": null,
+        "tons": null
+      },
+      "element_29": {
+        "pct": null,
+        "tons": null
+      }
+    },
+    "loss_cells": [],
+    "diagnosis_summary": [],
+    "data_quality": []
+  },
+  "hypotheses": [
+    {
+      "id": "hyp_001",
+      "title": "Tune диаметр песковой насадки гидроциклона to improve извлекаемые потери element_28 с хвостами",
+      "summary": "Adjust диаметр песковой насадки гидроциклона to drive извлекаемые потери element_28 с хвостами through the traced causal path.",
+      "status": "recommended",
+      "rank": 1,
+      "score_total": 0.8290000000000001,
+      "score_breakdown": {
+        "kpi_impact": 0.7400000000000001,
+        "evidence": 0.925,
+        "plausibility": 0.8,
+        "cost": 1.0,
+        "risk": 1.0,
+        "novelty": 0.3
+      },
+      "economic_effect": {
+        "addressable_tons": {
+          "element_28": 4794.0
+        },
+        "recovery_gain_pct_range": [
+          5.0,
+          15.0
+        ],
+        "value_usd_range": [
+          3955050.0,
+          11865150.0
+        ],
+        "assumptions": [
+          "price element_28 = 16500 $/t (параметр KpiContract)",
+          "диагноз liberation_deficit: addressable_tons из DiagnosticsReport",
+          "gain range 5-15% — default_gain_pct_range пака"
+        ]
+      },
+      "trace": [
+        "claim_001",
+        "claim_002",
+        "claim_003",
+        "claim_016"
+      ],
+      "source_nodes": [
+        "node_hydrocyclone_nozzle",
+        "node_separation_size",
+        "node_regrind_circuit",
+        "node_liberation",
+        "node_diag_liberation_deficit",
+        "node_recoverable_losses_element_28"
+      ],
+      "risks": [
+        "Some causal edges rely on non-grounded evidence."
+      ],
+      "missing_evidence": [],
+      "doe_plan": {
+        "objective": "Validate the effect on извлекаемые потери element_28 с хвостами for the proposed change.",
+        "factors": [
+          "диаметр песковой насадки гидроциклона"
+        ],
+        "measurements": [
+          "извлекаемые потери element_28 с хвостами",
+          "cost delta"
+        ],
+        "minimum_runs": 3
+      },
+      "expert_match": null
+    },
+    {
+      "id": "hyp_002",
+      "title": "Tune диаметр мелющих шаров to improve извлекаемые потери element_28 с хвостами",
+      "summary": "Adjust диаметр мелющих шаров to drive извлекаемые потери element_28 с хвостами through the traced causal path.",
+      "status": "recommended",
+      "rank": 2,
+      "score_total": 0.820275,
+      "score_breakdown": {
+        "kpi_impact": 0.7565,
+        "evidence": 0.89,
+        "plausibility": 0.75,
+        "cost": 1.0,
+        "risk": 1.0,
+        "novelty": 0.3
+      },
+      "economic_effect": {
+        "addressable_tons": {
+          "element_28": 4794.0
+        },
+        "recovery_gain_pct_range": [
+          5.0,
+          15.0
+        ],
+        "value_usd_range": [
+          3955050.0,
+          11865150.0
+        ],
+        "assumptions": [
+          "price element_28 = 16500 $/t (параметр KpiContract)",
+          "диагноз liberation_deficit: addressable_tons из DiagnosticsReport",
+          "gain range 5-15% — default_gain_pct_range пака"
+        ]
+      },
+      "trace": [
+        "claim_002",
+        "claim_003",
+        "claim_005",
+        "claim_014",
+        "claim_016"
+      ],
+      "source_nodes": [
+        "node_grinding_media_size",
+        "node_grind_stability",
+        "node_liberation",
+        "node_diag_liberation_deficit",
+        "node_recoverable_losses_element_28"
+      ],
+      "risks": [
+        "Some causal edges rely on non-grounded evidence."
+      ],
+      "missing_evidence": [],
+      "doe_plan": {
+        "objective": "Validate the effect on извлекаемые потери element_28 с хвостами for the proposed change.",
+        "factors": [
+          "диаметр мелющих шаров"
+        ],
+        "measurements": [
+          "извлекаемые потери element_28 с хвостами",
+          "cost delta"
+        ],
+        "minimum_runs": 3
+      },
+      "expert_match": null
+    },
+    {
+      "id": "hyp_003",
+      "title": "Tune скорость вращения классификатора to improve извлекаемые потери element_28 с хвостами",
+      "summary": "Adjust скорость вращения классификатора to drive извлекаемые потери element_28 с хвостами through the traced causal path.",
+      "status": "recommended",
+      "rank": 3,
+      "score_total": 0.8170000000000001,
+      "score_breakdown": {
+        "kpi_impact": 0.7200000000000001,
+        "evidence": 0.9,
+        "plausibility": 0.8,
+        "cost": 1.0,
+        "risk": 1.0,
+        "novelty": 0.3
+      },
+      "economic_effect": {
+        "addressable_tons": {
+          "element_28": 4794.0
+        },
+        "recovery_gain_pct_range": [
+          5.0,
+          15.0
+        ],
+        "value_usd_range": [
+          3955050.0,
+          11865150.0
+        ],
+        "assumptions": [
+          "price element_28 = 16500 $/t (параметр KpiContract)",
+          "диагноз liberation_deficit: addressable_tons из DiagnosticsReport",
+          "gain range 5-15% — default_gain_pct_range пака"
+        ]
+      },
+      "trace": [
+        "claim_001",
+        "claim_002",
+        "claim_003",
+        "claim_016",
+        "claim_018"
+      ],
+      "source_nodes": [
+        "node_classifier_speed",
+        "node_separation_size",
+        "node_regrind_circuit",
+        "node_liberation",
+        "node_diag_liberation_deficit",
+        "node_recoverable_losses_element_28"
+      ],
+      "risks": [
+        "Some causal edges rely on non-grounded evidence."
+      ],
+      "missing_evidence": [],
+      "doe_plan": {
+        "objective": "Validate the effect on извлекаемые потери element_28 с хвостами for the proposed change.",
+        "factors": [
+          "скорость вращения классификатора"
+        ],
+        "measurements": [
+          "извлекаемые потери element_28 с хвостами",
+          "cost delta"
+        ],
+        "minimum_runs": 3
+      },
+      "expert_match": null
+    },
+    {
+      "id": "hyp_004",
+      "title": "Tune геометрия футеровки мельниц to improve извлекаемые потери element_28 с хвостами",
+      "summary": "Adjust геометрия футеровки мельниц to drive извлекаемые потери element_28 с хвостами through the traced causal path.",
+      "status": "recommended",
+      "rank": 4,
+      "score_total": 0.7752749999999999,
+      "score_breakdown": {
+        "kpi_impact": 0.7565,
+        "evidence": 0.89,
+        "plausibility": 0.75,
+        "cost": 0.7,
+        "risk": 1.0,
+        "novelty": 0.3
+      },
+      "economic_effect": {
+        "addressable_tons": {
+          "element_28": 4794.0
+        },
+        "recovery_gain_pct_range": [
+          5.0,
+          15.0
+        ],
+        "value_usd_range": [
+          3955050.0,
+          11865150.0
+        ],
+        "assumptions": [
+          "price element_28 = 16500 $/t (параметр KpiContract)",
+          "диагноз liberation_deficit: addressable_tons из DiagnosticsReport",
+          "gain range 5-15% — default_gain_pct_range пака"
+        ]
+      },
+      "trace": [
+        "claim_002",
+        "claim_003",
+        "claim_004",
+        "claim_014",
+        "claim_016"
+      ],
+      "source_nodes": [
+        "node_mill_liner_geometry",
+        "node_grind_stability",
+        "node_liberation",
+        "node_diag_liberation_deficit",
+        "node_recoverable_losses_element_28"
+      ],
+      "risks": [
+        "Higher capex class increases capital cost.",
+        "Some causal edges rely on non-grounded evidence."
+      ],
+      "missing_evidence": [],
+      "doe_plan": {
+        "objective": "Validate the effect on извлекаемые потери element_28 с хвостами for the proposed change.",
+        "factors": [
+          "геометрия футеровки мельниц"
+        ],
+        "measurements": [
+          "извлекаемые потери element_28 с хвостами",
+          "cost delta"
+        ],
+        "minimum_runs": 3
+      },
+      "expert_match": null
+    },
+    {
+      "id": "hyp_005",
+      "title": "Tune автоматическое регулирование зазора дробилки to improve извлекаемые потери element_28 с хвостами",
+      "summary": "Adjust автоматическое регулирование зазора дробилки to drive извлекаемые потери element_28 с хвостами through the traced causal path.",
+      "status": "recommended",
+      "rank": 5,
+      "score_total": 0.7703,
+      "score_breakdown": {
+        "kpi_impact": 0.7480000000000001,
+        "evidence": 0.8800000000000001,
+        "plausibility": 0.75,
+        "cost": 0.7,
+        "risk": 1.0,
+        "novelty": 0.3
+      },
+      "economic_effect": {
+        "addressable_tons": {
+          "element_28": 4794.0
+        },
+        "recovery_gain_pct_range": [
+          5.0,
+          15.0
+        ],
+        "value_usd_range": [
+          3955050.0,
+          11865150.0
+        ],
+        "assumptions": [
+          "price element_28 = 16500 $/t (параметр KpiContract)",
+          "диагноз liberation_deficit: addressable_tons из DiagnosticsReport",
+          "gain range 5-15% — default_gain_pct_range пака"
+        ]
+      },
+      "trace": [
+        "claim_002",
+        "claim_003",
+        "claim_013",
+        "claim_014",
+        "claim_016"
+      ],
+      "source_nodes": [
+        "node_crusher_gap_control",
+        "node_grind_stability",
+        "node_liberation",
+        "node_diag_liberation_deficit",
+        "node_recoverable_losses_element_28"
+      ],
+      "risks": [
+        "Higher capex class increases capital cost.",
+        "Some causal edges rely on non-grounded evidence."
+      ],
+      "missing_evidence": [],
+      "doe_plan": {
+        "objective": "Validate the effect on извлекаемые потери element_28 с хвостами for the proposed change.",
+        "factors": [
+          "автоматическое регулирование зазора дробилки"
+        ],
+        "measurements": [
+          "извлекаемые потери element_28 с хвостами",
+          "cost delta"
+        ],
+        "minimum_runs": 3
+      },
+      "expert_match": null
+    },
+    {
+      "id": "hyp_006",
+      "title": "Introduce тонкое грохочение после 2-й стадии (new capability) to improve извлекаемые потери element_28 с хвостами",
+      "summary": "тонкое грохочение после 2-й стадии is not yet available on this line; adding it opens a path to извлекаемые потери element_28 с хвостами.",
+      "status": "watch",
+      "rank": 6,
+      "score_total": 0.7443,
+      "score_breakdown": {
+        "kpi_impact": 0.728,
+        "evidence": 0.9099999999999999,
+        "plausibility": 0.8,
+        "cost": 0.35,
+        "risk": 1.0,
+        "novelty": 0.7000000000000001
+      },
+      "economic_effect": {
+        "addressable_tons": {
+          "element_28": 4794.0
+        },
+        "recovery_gain_pct_range": [
+          5.0,
+          15.0
+        ],
+        "value_usd_range": [
+          3955050.0,
+          11865150.0
+        ],
+        "assumptions": [
+          "price element_28 = 16500 $/t (параметр KpiContract)",
+          "диагноз liberation_deficit: addressable_tons из DiagnosticsReport",
+          "gain range 5-15% — default_gain_pct_range пака"
+        ]
+      },
+      "trace": [
+        "claim_001",
+        "claim_002",
+        "claim_003",
+        "claim_011",
+        "claim_016"
+      ],
+      "source_nodes": [
+        "node_fine_screening",
+        "node_separation_size",
+        "node_regrind_circuit",
+        "node_liberation",
+        "node_diag_liberation_deficit",
+        "node_recoverable_losses_element_28"
+      ],
+      "risks": [
+        "Higher capex class increases capital cost.",
+        "Some causal edges rely on non-grounded evidence."
+      ],
+      "missing_evidence": [],
+      "doe_plan": {
+        "objective": "Validate the effect on извлекаемые потери element_28 с хвостами for the proposed change.",
+        "factors": [
+          "тонкое грохочение после 2-й стадии"
+        ],
+        "measurements": [
+          "извлекаемые потери element_28 с хвостами",
+          "cost delta"
+        ],
+        "minimum_runs": 3
+      },
+      "expert_match": null
+    },
+    {
+      "id": "hyp_007",
+      "title": "Introduce магнитная сепарация пирротиновой фракции (new capability) to improve извлекаемые потери element_28 с хвостами",
+      "summary": "магнитная сепарация пирротиновой фракции is not yet available on this line; adding it opens a path to извлекаемые потери element_28 с хвостами.",
+      "status": "watch",
+      "rank": 7,
+      "score_total": 0.74153125,
+      "score_breakdown": {
+        "kpi_impact": 0.7543749999999999,
+        "evidence": 0.8875,
+        "plausibility": 0.75,
+        "cost": 0.35,
+        "risk": 1.0,
+        "novelty": 0.7000000000000001
+      },
+      "economic_effect": {
+        "addressable_tons": {
+          "element_28": 4794.0
+        },
+        "recovery_gain_pct_range": [
+          5.0,
+          15.0
+        ],
+        "value_usd_range": [
+          3955050.0,
+          11865150.0
+        ],
+        "assumptions": [
+          "price element_28 = 16500 $/t (параметр KpiContract)",
+          "диагноз liberation_deficit: addressable_tons из DiagnosticsReport",
+          "gain range 5-15% — default_gain_pct_range пака"
+        ]
+      },
+      "trace": [
+        "claim_002",
+        "claim_003",
+        "claim_012",
+        "claim_016"
+      ],
+      "source_nodes": [
+        "node_magnetic_separation",
+        "node_regrind_circuit",
+        "node_liberation",
+        "node_diag_liberation_deficit",
+        "node_recoverable_losses_element_28"
+      ],
+      "risks": [
+        "Higher capex class increases capital cost.",
+        "Some causal edges rely on non-grounded evidence."
+      ],
+      "missing_evidence": [],
+      "doe_plan": {
+        "objective": "Validate the effect on извлекаемые потери element_28 с хвостами for the proposed change.",
+        "factors": [
+          "магнитная сепарация пирротиновой фракции"
+        ],
+        "measurements": [
+          "извлекаемые потери element_28 с хвостами",
+          "cost delta"
+        ],
+        "minimum_runs": 3
+      },
+      "expert_match": null
+    },
+    {
+      "id": "hyp_008",
+      "title": "Tune время агитации в контактных чанах to improve извлекаемые потери element_28 с хвостами",
+      "summary": "Adjust время агитации в контактных чанах to drive извлекаемые потери element_28 с хвостами through the traced causal path.",
+      "status": "watch",
+      "rank": 8,
+      "score_total": 0.5702057919621749,
+      "score_breakdown": {
+        "kpi_impact": 0.055349881796690294,
+        "evidence": 0.8666666666666666,
+        "plausibility": 0.75,
+        "cost": 1.0,
+        "risk": 1.0,
+        "novelty": 0.3
+      },
+      "economic_effect": {
+        "addressable_tons": {
+          "element_28": 360.2
+        },
+        "recovery_gain_pct_range": [
+          5.0,
+          15.0
+        ],
+        "value_usd_range": [
+          297165.0,
+          891495.0
+        ],
+        "assumptions": [
+          "price element_28 = 16500 $/t (параметр KpiContract)",
+          "диагноз flotation_kinetics: addressable_tons из DiagnosticsReport",
+          "gain range 5-15% — default_gain_pct_range пака"
+        ]
+      },
+      "trace": [
+        "claim_008",
+        "claim_009",
+        "claim_016"
+      ],
+      "source_nodes": [
+        "node_agitation_time",
+        "node_collector_adsorption",
+        "node_flotation_recovery_kinetics",
+        "node_diag_flotation_kinetics",
+        "node_recoverable_losses_element_28"
+      ],
+      "risks": [
+        "Some causal edges rely on non-grounded evidence."
+      ],
+      "missing_evidence": [],
+      "doe_plan": {
+        "objective": "Validate the effect on извлекаемые потери element_28 с хвостами for the proposed change.",
+        "factors": [
+          "время агитации в контактных чанах"
+        ],
+        "measurements": [
+          "извлекаемые потери element_28 с хвостами",
+          "cost delta"
+        ],
+        "minimum_runs": 3
+      },
+      "expert_match": null
+    },
+    {
+      "id": "hyp_009",
+      "title": "Tune плотность пульпы на входе в флотацию to improve извлекаемые потери element_28 с хвостами",
+      "summary": "Adjust плотность пульпы на входе в флотацию to drive извлекаемые потери element_28 с хвостами through the traced causal path.",
+      "status": "watch",
+      "rank": 9,
+      "score_total": 0.5588453483521068,
+      "score_breakdown": {
+        "kpi_impact": 0.058605757196495606,
+        "evidence": 0.8666666666666666,
+        "plausibility": 0.6666666666666666,
+        "cost": 1.0,
+        "risk": 1.0,
+        "novelty": 0.3
+      },
+      "economic_effect": {
+        "addressable_tons": {
+          "element_28": 360.2
+        },
+        "recovery_gain_pct_range": [
+          5.0,
+          15.0
+        ],
+        "value_usd_range": [
+          297165.0,
+          891495.0
+        ],
+        "assumptions": [
+          "price element_28 = 16500 $/t (параметр KpiContract)",
+          "диагноз flotation_kinetics: addressable_tons из DiagnosticsReport",
+          "gain range 5-15% — default_gain_pct_range пака"
+        ]
+      },
+      "trace": [
+        "claim_009",
+        "claim_010",
+        "claim_016"
+      ],
+      "source_nodes": [
+        "node_pulp_density",
+        "node_flotation_recovery_kinetics",
+        "node_diag_flotation_kinetics",
+        "node_recoverable_losses_element_28"
+      ],
+      "risks": [
+        "Some causal edges rely on non-grounded evidence."
+      ],
+      "missing_evidence": [],
+      "doe_plan": {
+        "objective": "Validate the effect on извлекаемые потери element_28 с хвостами for the proposed change.",
+        "factors": [
+          "плотность пульпы на входе в флотацию"
+        ],
+        "measurements": [
+          "извлекаемые потери element_28 с хвостами",
+          "cost delta"
+        ],
+        "minimum_runs": 3
+      },
+      "expert_match": null
+    },
+    {
+      "id": "hyp_010",
+      "title": "Tune фронт флотации (время флотации) to improve извлекаемые потери element_28 с хвостами",
+      "summary": "Adjust фронт флотации (время флотации) to drive извлекаемые потери element_28 с хвостами through the traced causal path.",
+      "status": "watch",
+      "rank": 10,
+      "score_total": 0.5063009386733416,
+      "score_breakdown": {
+        "kpi_impact": 0.060859824780976214,
+        "evidence": 0.5999999999999999,
+        "plausibility": 0.6666666666666666,
+        "cost": 1.0,
+        "risk": 1.0,
+        "novelty": 0.3
+      },
+      "economic_effect": {
+        "addressable_tons": {
+          "element_28": 360.2
+        },
+        "recovery_gain_pct_range": [
+          5.0,
+          15.0
+        ],
+        "value_usd_range": [
+          297165.0,
+          891495.0
+        ],
+        "assumptions": [
+          "price element_28 = 16500 $/t (параметр KpiContract)",
+          "диагноз flotation_kinetics: addressable_tons из DiagnosticsReport",
+          "gain range 5-15% — default_gain_pct_range пака"
+        ]
+      },
+      "trace": [
+        "claim_009",
+        "claim_016"
+      ],
+      "source_nodes": [
+        "node_flotation_front",
+        "node_flotation_recovery_kinetics",
+        "node_diag_flotation_kinetics",
+        "node_recoverable_losses_element_28"
+      ],
+      "risks": [
+        "Some causal edges rely on non-grounded evidence."
+      ],
+      "missing_evidence": [],
+      "doe_plan": {
+        "objective": "Validate the effect on извлекаемые потери element_28 с хвостами for the proposed change.",
+        "factors": [
+          "фронт флотации (время флотации)"
+        ],
+        "measurements": [
+          "извлекаемые потери element_28 с хвостами",
+          "cost delta"
+        ],
+        "minimum_runs": 3
+      },
+      "expert_match": null
+    },
+    {
+      "id": "hyp_011",
+      "title": "Tune дозировка депрессора (Finfix) to improve извлекаемые потери element_28 с хвостами",
+      "summary": "Adjust дозировка депрессора (Finfix) to drive извлекаемые потери element_28 с хвостами through the traced causal path.",
+      "status": "watch",
+      "rank": 11,
+      "score_total": 0.4984508865248227,
+      "score_breakdown": {
+        "kpi_impact": 0.05747872340425531,
+        "evidence": 0.5666666666666667,
+        "plausibility": 0.6666666666666666,
+        "cost": 1.0,
+        "risk": 1.0,
+        "novelty": 0.3
+      },
+      "economic_effect": {
+        "addressable_tons": {
+          "element_28": 360.2
+        },
+        "recovery_gain_pct_range": [
+          5.0,
+          15.0
+        ],
+        "value_usd_range": [
+          297165.0,
+          891495.0
+        ],
+        "assumptions": [
+          "price element_28 = 16500 $/t (параметр KpiContract)",
+          "диагноз flotation_kinetics: addressable_tons из DiagnosticsReport",
+          "gain range 5-15% — default_gain_pct_range пака"
+        ]
+      },
+      "trace": [
+        "claim_015",
+        "claim_016"
+      ],
+      "source_nodes": [
+        "node_depressant_dosage",
+        "node_selectivity",
+        "node_diag_flotation_kinetics",
+        "node_recoverable_losses_element_28"
+      ],
+      "risks": [
+        "Some causal edges rely on non-grounded evidence."
+      ],
+      "missing_evidence": [],
+      "doe_plan": {
+        "objective": "Validate the effect on извлекаемые потери element_28 с хвостами for the proposed change.",
+        "factors": [
+          "дозировка депрессора (Finfix)"
+        ],
+        "measurements": [
+          "извлекаемые потери element_28 с хвостами",
+          "cost delta"
+        ],
+        "minimum_runs": 3
+      },
+      "expert_match": null
+    }
+  ]
+}

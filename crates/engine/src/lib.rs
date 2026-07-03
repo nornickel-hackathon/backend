@@ -23,18 +23,31 @@ pub use graph::Graph;
 /// `snapshot.id`/`snapshot.hash` остаются пустыми — их проставляет платформа,
 /// которая владеет воспроизводимостью входа.
 pub fn discover(graph: &Graph, contract: &KpiContract, pack: &DomainPack) -> BoardResponse {
-    let candidates = operators::generate(graph, contract, pack);
-
+    // Дедупликация кандидатов по стабильному ключу.
     let mut seen = BTreeSet::new();
-    let mut scored: Vec<(f64, String, Hypothesis)> = Vec::new();
-
-    for cand in candidates {
+    let mut cands: Vec<(String, operators::Candidate)> = Vec::new();
+    for cand in operators::generate(graph, contract, pack) {
         let key = format!("{}|{}", cand.operator, cand.source_nodes.join(","));
-        if !seen.insert(key.clone()) {
-            continue;
+        if seen.insert(key.clone()) {
+            cands.push((key, cand));
         }
+    }
 
-        let s = scoring::score(graph, &cand, contract, pack);
+    // Проход 1: экономический эффект каждого кандидата + максимум по портфелю.
+    let effects: Vec<contracts::EconomicEffect> = cands
+        .iter()
+        .map(|(_, c)| scoring::economic(graph, c, contract, pack))
+        .collect();
+    let max_value_mid = effects
+        .iter()
+        .map(scoring::value_mid)
+        .fold(0.0_f64, f64::max);
+
+    // Проход 2: scoring (kpi_impact нормируется на max), статусы, сборка гипотез.
+    let mut scored: Vec<(f64, String, Hypothesis)> = Vec::new();
+    for ((key, cand), economic_effect) in cands.into_iter().zip(effects) {
+        let value_mid = scoring::value_mid(&economic_effect);
+        let s = scoring::score(graph, &cand, contract, value_mid, max_value_mid);
         let score_total = scoring::weighted_total(&s.breakdown, pack, &contract.weights_override);
         let st = status::assign(graph, &cand, score_total, contract, pack);
         let doe_plan = doe::plan(graph, &cand);
@@ -47,11 +60,13 @@ pub fn discover(graph: &Graph, contract: &KpiContract, pack: &DomainPack) -> Boa
             rank: 0,
             score_total,
             score_breakdown: s.breakdown,
+            economic_effect,
             trace: cand.trace.clone(),
             source_nodes: cand.source_nodes.clone(),
             risks: s.risks,
             missing_evidence: s.missing_evidence,
             doe_plan,
+            expert_match: None,
         };
         scored.push((score_total, key, hyp));
     }
@@ -78,6 +93,7 @@ pub fn discover(graph: &Graph, contract: &KpiContract, pack: &DomainPack) -> Boa
             pack_id: pack.pack_id.clone(),
         },
         kpi_contract: contract.clone(),
+        diagnostics: contracts::DiagnosticsReport::default(),
         hypotheses,
     }
 }
@@ -111,12 +127,11 @@ fn lever_label(graph: &Graph, cand: &operators::Candidate) -> String {
 
 fn title(graph: &Graph, cand: &operators::Candidate) -> String {
     let kpi = node_label(graph, &cand.kpi);
-    let factors = factor_labels(graph, cand);
     let lever = lever_label(graph, cand);
     match cand.operator {
         "mechanism_path" => format!("Tune {lever} to improve {kpi}"),
         "substitution" => format!("Substitute {lever} on the path to {kpi}"),
-        "gap" => format!("Test {factors} together for {kpi}"),
+        "gap" => format!("Introduce {lever} (new capability) to improve {kpi}"),
         "contradiction" => format!("Find the boundary condition affecting {kpi}"),
         "analogy_transfer" => format!("Transfer a proven mechanism toward {kpi}"),
         "uncovered_constraint" => format!("Add {kpi} measurement as a required gate"),
@@ -126,7 +141,6 @@ fn title(graph: &Graph, cand: &operators::Candidate) -> String {
 
 fn summary(graph: &Graph, cand: &operators::Candidate) -> String {
     let kpi = node_label(graph, &cand.kpi);
-    let factors = factor_labels(graph, cand);
     let lever = lever_label(graph, cand);
     match cand.operator {
         "mechanism_path" => {
@@ -136,7 +150,7 @@ fn summary(graph: &Graph, cand: &operators::Candidate) -> String {
             format!("Use {lever} as an alternative route toward {kpi} with the same effect.")
         }
         "gap" => format!(
-            "The combination of {factors} is not covered by the corpus; verify it jointly for {kpi}."
+            "{lever} is not yet available on this line; adding it opens a path to {kpi}."
         ),
         "contradiction" => {
             format!("Two claims disagree on {kpi}; determine the condition where the effect flips.")

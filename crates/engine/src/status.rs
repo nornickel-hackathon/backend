@@ -5,9 +5,8 @@ use contracts::{DomainPack, KpiContract, Status};
 use crate::graph::Graph;
 use crate::operators::Candidate;
 
-/// Свойство-узла с оценкой относительного роста стоимости.
-const COST_PROPERTY: &str = "estimated_cost_delta_percent";
-const COST_METRIC: &str = "cost";
+/// Метрика-измерение капзатрат рычага в контракте/паке.
+const CAPEX_METRIC: &str = "capexclass";
 
 pub fn assign(
     graph: &Graph,
@@ -30,36 +29,45 @@ pub fn assign(
     }
 }
 
-/// Единственная численная величина гипотезы — cost_delta управляемого фактора;
-/// проверяем её против cost-ограничений контракта и пака.
+/// Хард-фильтры: недоступное оборудование (кроме gap — он и предлагает новое
+/// оборудование) и `capex_class` рычага против capex-ограничений. Ограничения из
+/// контракта (явно заданы пользователем) применяются и к gap; ограничения пака —
+/// нет (gap = новое оборудование, capex_class 3 «по определению»).
 fn violates_hard_constraint(
     graph: &Graph,
     cand: &Candidate,
     contract: &KpiContract,
     pack: &DomainPack,
 ) -> bool {
-    let Some(delta) = cand
-        .controllable
-        .as_ref()
-        .and_then(|id| graph.node(id))
-        .and_then(|n| n.properties.get(COST_PROPERTY).and_then(serde_json::Value::as_f64))
-    else {
+    let Some(node) = cand.controllable.as_ref().and_then(|id| graph.node(id)) else {
         return false;
     };
+
+    // equipment_not_available: недоступный рычаг вне gap отсекается.
+    if !cand.is_gap && !node.is_available() {
+        return true;
+    }
+
+    let Some(capex) = node.capex_class() else {
+        return false;
+    };
+    let capex = capex as f64;
 
     let from_contract = contract
         .constraints
         .iter()
-        .filter(|c| normalize(&c.metric) == COST_METRIC)
-        .any(|c| c.op.is_violated_by(delta, c.value));
-
-    let from_pack = pack
-        .hard_constraints
+        .filter(|c| normalize(&c.metric) == CAPEX_METRIC)
+        .any(|c| c.op.is_violated_by(capex, c.value));
+    if from_contract {
+        return true;
+    }
+    if cand.is_gap {
+        return false;
+    }
+    pack.hard_constraints
         .iter()
-        .filter(|c| normalize(&c.metric) == COST_METRIC)
-        .any(|c| c.op.is_violated_by(delta, c.value));
-
-    from_contract || from_pack
+        .filter(|c| normalize(&c.metric) == CAPEX_METRIC)
+        .any(|c| c.op.is_violated_by(capex, c.value))
 }
 
 fn normalize(s: &str) -> String {

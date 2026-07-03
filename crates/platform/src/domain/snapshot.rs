@@ -6,7 +6,7 @@ use std::hash::{Hash, Hasher};
 
 use contracts::{ExtractResponse, Snapshot};
 
-pub fn snapshot_of(extract: &ExtractResponse) -> Snapshot {
+pub fn snapshot_of(extract: &ExtractResponse, factory_id: &str) -> Snapshot {
     // Канонизируем вход: сортируем все элементы по id, чтобы порядок в JSON
     // не влиял на hash.
     let mut nodes: Vec<String> = extract
@@ -31,6 +31,7 @@ pub fn snapshot_of(extract: &ExtractResponse) -> Snapshot {
     claims.sort();
 
     let mut hasher = DefaultHasher::new();
+    factory_id.hash(&mut hasher);
     extract.pack_id.hash(&mut hasher);
     for s in nodes.iter().chain(edges.iter()).chain(claims.iter()) {
         s.hash(&mut hasher);
