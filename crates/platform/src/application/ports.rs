@@ -11,9 +11,16 @@ pub trait ExtractSource: Send + Sync {
     fn load(&self) -> Result<ExtractResponse, String>;
 }
 
-/// Источник диагностики хвостов по фабрике (`fixtures/diagnostics_<factory_id>.json`).
+/// Источник диагностики хвостов по фабрике. Для известных фабрик это может быть
+/// `fixtures/diagnostics_<factory_id>.json`; для hidden factory `source_file`
+/// позволяет обратиться к живому sidecar без обязательной фикстуры.
 pub trait DiagnosticsSource: Send + Sync {
-    fn load(&self, factory_id: &str) -> Result<DiagnosticsReport, String>;
+    fn load(
+        &self,
+        factory_id: &str,
+        source_file: Option<&str>,
+        pack_id: &str,
+    ) -> Result<DiagnosticsReport, String>;
 }
 
 /// Репозиторий конфигов фабрик (`factories/<factory_id>.yaml`).

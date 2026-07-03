@@ -8,6 +8,10 @@ pub struct RunRequest {
     pub factory_id: String,
     #[serde(default)]
     pub pack_id: Option<String>,
+    /// Optional xlsx path for a newly provided/hidden factory. When set, platform
+    /// must ask the live sidecar for diagnostics instead of requiring a fixture.
+    #[serde(default)]
+    pub source_file: Option<String>,
     /// Опционален — дефолтный контракт по factory_id, если не задан.
     #[serde(default)]
     pub kpi_contract: Option<KpiContract>,

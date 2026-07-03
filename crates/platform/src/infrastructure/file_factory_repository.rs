@@ -21,8 +21,17 @@ impl FileFactoryRepository {
 impl FactoryRepository for FileFactoryRepository {
     fn load(&self, factory_id: &str) -> Result<FactoryConfig, String> {
         let path = self.factories_dir.join(format!("{factory_id}.yaml"));
-        let text = std::fs::read_to_string(&path)
-            .map_err(|e| format!("cannot read factory '{}': {e}", path.display()))?;
+        let text = match std::fs::read_to_string(&path) {
+            Ok(text) => text,
+            Err(e) if e.kind() == std::io::ErrorKind::NotFound => {
+                return Ok(FactoryConfig {
+                    factory_id: factory_id.to_string(),
+                    tails_sections: Vec::new(),
+                    equipment: Vec::new(),
+                });
+            }
+            Err(e) => return Err(format!("cannot read factory '{}': {e}", path.display())),
+        };
         serde_yaml::from_str(&text).map_err(|e| format!("cannot parse factory '{factory_id}': {e}"))
     }
 }

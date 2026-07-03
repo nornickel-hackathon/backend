@@ -54,19 +54,37 @@ pub struct HttpDiagnosticsSource {
 
 impl HttpDiagnosticsSource {
     pub fn new(sidecar_url: String, fallback: FileDiagnosticsSource) -> Self {
-        HttpDiagnosticsSource { sidecar_url, fallback }
+        HttpDiagnosticsSource {
+            sidecar_url,
+            fallback,
+        }
     }
 }
 
 impl DiagnosticsSource for HttpDiagnosticsSource {
-    fn load(&self, factory_id: &str) -> Result<DiagnosticsReport, String> {
-        // Всегда держим файловую версию — источник file_path и страховка.
-        let file = self.fallback.load(factory_id)?;
+    fn load(
+        &self,
+        factory_id: &str,
+        source_file: Option<&str>,
+        pack_id: &str,
+    ) -> Result<DiagnosticsReport, String> {
         let url = format!("{}/diagnose", self.sidecar_url.trim_end_matches('/'));
+        if let Some(file_path) = source_file {
+            let body = json!({
+                "factory_id": factory_id,
+                "file_path": file_path,
+                "pack_id": pack_id,
+            });
+            return blocking_post::<DiagnosticsReport>(url, body);
+        }
+
+        // For known factories, keep the file version as source of file_path and
+        // deterministic demo fallback.
+        let file = self.fallback.load(factory_id, None, pack_id)?;
         let body = json!({
             "factory_id": factory_id,
             "file_path": file.source_file,
-            "pack_id": file.pack_id,
+            "pack_id": if file.pack_id.is_empty() { pack_id } else { &file.pack_id },
         });
         match blocking_post::<DiagnosticsReport>(url, body) {
             Ok(report) => Ok(report),
@@ -86,7 +104,10 @@ pub struct HttpExtractSource {
 
 impl HttpExtractSource {
     pub fn new(sidecar_url: String, fallback: FileExtractSource) -> Self {
-        HttpExtractSource { sidecar_url, fallback }
+        HttpExtractSource {
+            sidecar_url,
+            fallback,
+        }
     }
 }
 

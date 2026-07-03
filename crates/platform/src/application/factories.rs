@@ -3,11 +3,11 @@
 
 use contracts::{FactorySummary, Status};
 
+use crate::application::benchmark::load_experts;
 use crate::application::error::UseCaseError;
 use crate::application::ports::{
     DiagnosticsSource, ExpertHypothesesGateway, ExtractSource, FactoryRepository, PackRepository,
 };
-use crate::application::benchmark::load_experts;
 use crate::domain::{annotate, benchmark, money, validation};
 
 /// Фабрики кейса (Пример 1–4).
@@ -27,21 +27,32 @@ pub fn execute(
     let mut out = Vec::new();
     for fid in FACTORY_IDS {
         // Фабрика без данных не валит весь ответ — просто пропускаем.
-        let Ok(diag) = diagnostics_source.load(fid) else { continue };
-        let Ok(factory) = factories.load(fid) else { continue };
+        let Ok(diag) = diagnostics_source.load(fid, None, &base_extract.pack_id) else {
+            continue;
+        };
+        let Ok(factory) = factories.load(fid) else {
+            continue;
+        };
 
         let contract = annotate::default_contract(fid);
         let mut extract = base_extract.clone();
         annotate::annotate(&mut extract, &diag, &factory);
 
-        let Ok(graph) = engine::Graph::build(&extract) else { continue };
-        let pack = packs.load(&extract.pack_id).map_err(UseCaseError::Internal)?;
+        let Ok(graph) = engine::Graph::build(&extract) else {
+            continue;
+        };
+        let pack = packs
+            .load(&extract.pack_id)
+            .map_err(UseCaseError::Internal)?;
 
         let mut board = engine::discover(&graph, &contract, &pack);
         let report =
             benchmark::match_experts(&mut board.hypotheses, &extract.entities, &experts, fid);
-        let (recoverable_tons, opportunity_usd_mid) =
-            money::opportunity(&diag, &contract.prices_usd_per_t, pack.default_gain_pct_range);
+        let (recoverable_tons, opportunity_usd_mid) = money::opportunity(
+            &diag,
+            &contract.prices_usd_per_t,
+            pack.default_gain_pct_range,
+        );
 
         out.push(FactorySummary {
             factory_id: fid.to_string(),

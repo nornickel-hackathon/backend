@@ -30,6 +30,7 @@ pub fn annotate(
             .or_insert(0.0) += item.tons;
     }
 
+    let equipment_filter_disabled = factory.equipment.is_empty();
     let present: HashSet<&str> = factory
         .equipment
         .iter()
@@ -46,10 +47,11 @@ pub fn annotate(
             }
         }
         if node.has_tag("controllable") {
-            let available = match node.equipment_required() {
-                Some(req) => present.contains(req),
-                None => true,
-            };
+            let available = equipment_filter_disabled
+                || match node.equipment_required() {
+                    Some(req) => present.contains(req),
+                    None => true,
+                };
             set_prop(&mut node.properties, "available", json!(available));
         }
     }

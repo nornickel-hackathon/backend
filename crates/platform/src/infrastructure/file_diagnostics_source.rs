@@ -19,8 +19,20 @@ impl FileDiagnosticsSource {
 }
 
 impl DiagnosticsSource for FileDiagnosticsSource {
-    fn load(&self, factory_id: &str) -> Result<DiagnosticsReport, String> {
-        let path = self.fixtures_dir.join(format!("diagnostics_{factory_id}.json"));
+    fn load(
+        &self,
+        factory_id: &str,
+        source_file: Option<&str>,
+        _pack_id: &str,
+    ) -> Result<DiagnosticsReport, String> {
+        if source_file.is_some() {
+            return Err(
+                "source_file diagnostics require a live sidecar (set SIDECAR_URL)".to_string(),
+            );
+        }
+        let path = self
+            .fixtures_dir
+            .join(format!("diagnostics_{factory_id}.json"));
         let text = std::fs::read_to_string(&path)
             .map_err(|e| format!("cannot read diagnostics '{}': {e}", path.display()))?;
         serde_json::from_str(&text)

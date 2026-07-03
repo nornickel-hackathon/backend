@@ -13,6 +13,7 @@ pub fn build_router(state: AppState) -> Router {
         .route("/board", get(handlers::board))
         .route("/hypothesis/:id", get(handlers::hypothesis))
         .route("/rerun", post(handlers::rerun))
+        .route("/constraints/parse", post(handlers::parse_constraints))
         .route("/extract", get(handlers::extract))
         .route("/expert_hypotheses", get(handlers::expert_hypotheses))
         .route("/benchmark", get(handlers::benchmark))

@@ -17,6 +17,7 @@ use crate::infrastructure::{
 
 #[derive(Clone)]
 pub struct AppState {
+    pub sidecar_url: Option<String>,
     pub extract_source: Arc<dyn ExtractSource>,
     pub diagnostics_source: Arc<dyn DiagnosticsSource>,
     pub factories: Arc<dyn FactoryRepository>,
@@ -47,6 +48,7 @@ impl AppState {
             None => Arc::new(FileDiagnosticsSource::new(&base_dir)),
         };
         AppState {
+            sidecar_url: sidecar,
             extract_source,
             diagnostics_source,
             factories: Arc::new(FileFactoryRepository::new(&base_dir)),

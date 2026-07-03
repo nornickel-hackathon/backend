@@ -99,7 +99,9 @@ impl GraphNode {
 
     /// Требуемое оборудование рычага (`properties.equipment_required`).
     pub fn equipment_required(&self) -> Option<&str> {
-        self.properties.get("equipment_required").and_then(Value::as_str)
+        self.properties
+            .get("equipment_required")
+            .and_then(Value::as_str)
     }
 
     /// Доступность рычага на фабрике; проставляется платформой
@@ -647,6 +649,42 @@ pub struct RerunPayload {
     pub element: Option<String>,
     #[serde(default)]
     pub usd_per_t: Option<f64>,
+}
+
+// ---------------------------------------------------------------------------
+// Constraint parsing — Frontend -> Rust Platform -> Python Sidecar
+// ---------------------------------------------------------------------------
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ConstraintParseRequest {
+    pub text: String,
+    #[serde(default)]
+    pub run_id: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ConstraintParseSidecarRequest {
+    pub text: String,
+    pub kpi_contract: KpiContract,
+    pub pack_id: String,
+    #[serde(default)]
+    pub factors: Vec<ConstraintFactor>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ConstraintFactor {
+    pub id: String,
+    pub label: String,
+}
+
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ConstraintParseResponse {
+    #[serde(default)]
+    pub actions: Vec<RerunAction>,
+    #[serde(default)]
+    pub kpi_contract_patch: Value,
+    #[serde(default)]
+    pub unparsed: Vec<String>,
 }
 
 // ---------------------------------------------------------------------------
