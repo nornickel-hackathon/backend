@@ -1,5 +1,5 @@
 //! Валидация ВСЕГО входного JSON от сайдкара (AGENT_RULES.md: «Rust валидирует
-//! весь JSON»). Ошибки → `ApiError`, маппятся в 422.
+//! весь JSON»). Ошибки → `ApiError`, web-слой маппит их в 422.
 
 use std::collections::HashSet;
 

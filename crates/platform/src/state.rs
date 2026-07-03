@@ -1,39 +1,32 @@
-//! In-memory run store (P1.3) и доступ к файлам репозитория (fixtures, packs).
+//! Composition root / DI-контейнер. Единственное место, где известны
+//! конкретные реализации портов: собирает адаптеры `infrastructure` за
+//! трейтами `application::ports` и раздаёт их axum-хендлерам как `State`.
 
-use std::collections::HashMap;
 use std::path::PathBuf;
-use std::sync::{Arc, RwLock};
+use std::sync::Arc;
 
-use contracts::{BoardResponse, DomainPack, ExtractResponse, KpiContract, Snapshot};
-
-/// Один сохранённый прогон: всё нужное для rerun без повторного extraction.
-#[derive(Clone)]
-pub struct RunState {
-    pub run_id: String,
-    pub extract: ExtractResponse,
-    pub snapshot: Snapshot,
-    pub pack: DomainPack,
-    pub contract: KpiContract,
-    pub board: BoardResponse,
-}
-
-#[derive(Default)]
-pub struct Inner {
-    pub runs: HashMap<String, RunState>,
-    pub last: Option<String>,
-}
+use crate::application::ports::{BoardGateway, ExtractSource, PackRepository, RunRepository};
+use crate::infrastructure::{
+    FileBoardGateway, FileExtractSource, FilePackRepository, MemoryRunRepository,
+};
 
 #[derive(Clone)]
 pub struct AppState {
-    pub inner: Arc<RwLock<Inner>>,
-    pub base_dir: PathBuf,
+    pub extract_source: Arc<dyn ExtractSource>,
+    pub packs: Arc<dyn PackRepository>,
+    pub runs: Arc<dyn RunRepository>,
+    pub board_gateway: Arc<dyn BoardGateway>,
 }
 
 impl AppState {
+    /// Файловые адаптеры относительно `base_dir` (корень репозитория) +
+    /// in-memory run-стор.
     pub fn new(base_dir: PathBuf) -> Self {
         AppState {
-            inner: Arc::new(RwLock::new(Inner::default())),
-            base_dir,
+            extract_source: Arc::new(FileExtractSource::new(&base_dir)),
+            packs: Arc::new(FilePackRepository::new(&base_dir)),
+            runs: Arc::new(MemoryRunRepository::default()),
+            board_gateway: Arc::new(FileBoardGateway::new(&base_dir)),
         }
     }
 
@@ -43,20 +36,5 @@ impl AppState {
             .map(PathBuf::from)
             .unwrap_or_else(|_| std::env::current_dir().unwrap_or_default());
         AppState::new(base)
-    }
-
-    pub fn store(&self, run: RunState) {
-        let mut inner = self.inner.write().unwrap();
-        inner.last = Some(run.run_id.clone());
-        inner.runs.insert(run.run_id.clone(), run);
-    }
-
-    pub fn last_run(&self) -> Option<RunState> {
-        let inner = self.inner.read().unwrap();
-        inner.last.as_ref().and_then(|id| inner.runs.get(id).cloned())
-    }
-
-    pub fn fixtures_path(&self, name: &str) -> PathBuf {
-        self.base_dir.join("fixtures").join(name)
     }
 }
