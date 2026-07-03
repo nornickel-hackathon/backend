@@ -11,6 +11,7 @@ pub mod hypothesis;
 pub mod ports;
 pub mod readiness;
 pub mod rerun;
+pub mod roadmap;
 pub mod run;
 pub mod run_record;
 pub mod trace;

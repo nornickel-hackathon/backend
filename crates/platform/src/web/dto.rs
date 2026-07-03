@@ -27,6 +27,15 @@ pub struct BoardQuery {
 }
 
 #[derive(Deserialize)]
+pub struct RoadmapQuery {
+    #[serde(default)]
+    pub run_id: Option<String>,
+    /// Бюджет: максимальный capex_class действий (1..3). По умолчанию 3.
+    #[serde(default)]
+    pub max_capex: Option<u8>,
+}
+
+#[derive(Deserialize)]
 pub struct RerunRequest {
     #[serde(default)]
     pub run_id: Option<String>,

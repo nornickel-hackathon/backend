@@ -7,6 +7,7 @@ pub mod benchmark;
 pub mod money;
 pub mod readiness;
 pub mod rerun;
+pub mod roadmap;
 pub mod snapshot;
 pub mod trace;
 pub mod validation;

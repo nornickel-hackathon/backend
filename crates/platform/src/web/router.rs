@@ -18,6 +18,7 @@ pub fn build_router(state: AppState) -> Router {
         .route("/benchmark", get(handlers::benchmark))
         .route("/data_readiness", get(handlers::data_readiness))
         .route("/trace/:id", get(handlers::trace))
+        .route("/roadmap", get(handlers::roadmap))
         .route("/factories", get(handlers::factories))
         .route("/export/board.json", get(handlers::export_board_json))
         .route("/export/board.csv", get(handlers::export_board_csv))

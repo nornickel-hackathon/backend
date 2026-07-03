@@ -392,6 +392,46 @@ pub struct FactorySummary {
 }
 
 // ---------------------------------------------------------------------------
+// RoadmapPlan — рекомендованный план действий (де-дубль стоимости по диагнозам)
+// ---------------------------------------------------------------------------
+
+/// План внедрения: по каждому диагнозу потерь выбирается лучшее (обычно самое
+/// дешёвое эффективное) действие; стоимость суммируется по РАЗНЫМ диагнозам
+/// (без двойного счёта — гипотезы одного диагноза делят один addressable_tons).
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct RoadmapPlan {
+    pub factory_id: String,
+    pub max_capex_class: u8,
+    /// Честный суммарный эффект: Σ по покрытым диагнозам (не по всем гипотезам).
+    pub total_value_usd_range: [f64; 2],
+    pub covered_diagnoses: usize,
+    /// Диагнозы, не покрытые ни одним действием в рамках бюджета `max_capex_class`.
+    pub uncovered_diagnoses: Vec<String>,
+    pub phases: Vec<RoadmapPhase>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct RoadmapPhase {
+    pub capex_class: u8,
+    pub label: String,
+    pub value_usd_range: [f64; 2],
+    pub items: Vec<RoadmapItem>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct RoadmapItem {
+    pub diagnosis: String,
+    pub hypothesis_id: String,
+    pub title: String,
+    pub status: Status,
+    pub capex_class: u8,
+    pub value_usd_range: [f64; 2],
+    pub addressable_tons: BTreeMap<String, f64>,
+    /// Прочие гипотезы того же диагноза (id) — альтернативы выбранному действию.
+    pub alternatives: Vec<String>,
+}
+
+// ---------------------------------------------------------------------------
 // KpiContract
 // ---------------------------------------------------------------------------
 

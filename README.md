@@ -29,6 +29,7 @@ SIDECAR_URL=http://127.0.0.1:8765 NORNIKEL_ROOT=../docs cargo run -p platform
 - `GET /benchmark?run_id=` — покрытие эталонных гипотез экспертов (обычно 100% на KGMK)
 - `GET /data_readiness?run_id=` — качество исходного xlsx (ref_error и т.п.)
 - `GET /trace/:hyp_id?run_id=` — трассировка гипотезы до claims (страницы PDF) и ячеек xlsx
+- `GET /roadmap?run_id=&max_capex=` — план действий с честной де-дубликацией стоимости
 - `GET /factories` — мультифабричная карта денег по всем 4 фабрикам
 - `GET /export/board.{json,csv}`
 

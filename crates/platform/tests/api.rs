@@ -231,6 +231,35 @@ async fn factories_money_map() {
     assert!(kgmk["n_hypotheses"].as_u64().unwrap() > 0);
 }
 
+/// GET /roadmap: честная де-дубликация — total по диагнозам, не по всем гипотезам.
+#[tokio::test]
+async fn roadmap_dedupes_value_by_diagnosis() {
+    let app = app();
+    post(&app, "/run", json!({ "factory_id": "kgmk" })).await;
+
+    let full = body_json(get(&app, "/roadmap").await).await;
+    let total_hi = full["total_value_usd_range"][1].as_f64().unwrap();
+    assert!(full["covered_diagnoses"].as_u64().unwrap() >= 1);
+
+    // Сумма по всем гипотезам портфеля (наивная, с двойным счётом) должна быть
+    // существенно больше честного total дорожной карты.
+    let board = body_json(get(&app, "/board").await).await;
+    let naive_hi: f64 = board["hypotheses"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|h| h["economic_effect"]["value_usd_range"][1].as_f64().unwrap())
+        .sum();
+    assert!(naive_hi > total_hi * 1.5, "roadmap должен убирать двойной счёт: naive={naive_hi} total={total_hi}");
+
+    // Бюджет max_capex=1 (только быстрые настройки) не даёт больше, чем полный план.
+    let cheap = body_json(get(&app, "/roadmap?max_capex=1").await).await;
+    assert_eq!(cheap["max_capex_class"], 1);
+    for ph in cheap["phases"].as_array().unwrap() {
+        assert_eq!(ph["capex_class"], 1);
+    }
+}
+
 /// Валидация входного JSON: висящая ссылка ребра -> 422-ошибка контракта.
 #[test]
 fn validate_rejects_dangling_edge() {

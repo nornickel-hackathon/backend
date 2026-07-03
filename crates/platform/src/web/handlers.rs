@@ -11,7 +11,7 @@ use serde_json::Value;
 
 use crate::application::{self, export, UseCaseError};
 use crate::state::AppState;
-use crate::web::dto::{BoardQuery, RerunRequest, RunRequest, RunResponse};
+use crate::web::dto::{BoardQuery, RerunRequest, RoadmapQuery, RunRequest, RunResponse};
 use crate::web::error::HttpError;
 
 /// POST /run — граф из extract+диагностики, engine, сохранить прогон → {run_id, board}.
@@ -98,6 +98,16 @@ pub async fn trace(
 ) -> Result<Json<contracts::TraceReport>, HttpError> {
     let report = application::trace::execute(state.runs.as_ref(), q.run_id, &id)?;
     Ok(Json(report))
+}
+
+/// GET /roadmap — рекомендованный план действий (де-дубль стоимости, бюджет max_capex).
+pub async fn roadmap(
+    State(state): State<AppState>,
+    Query(q): Query<RoadmapQuery>,
+) -> Result<Json<contracts::RoadmapPlan>, HttpError> {
+    let plan =
+        application::roadmap::execute(state.runs.as_ref(), q.run_id, q.max_capex.unwrap_or(3))?;
+    Ok(Json(plan))
 }
 
 /// GET /factories — мультифабричная карта денег (все фабрики кейса).
