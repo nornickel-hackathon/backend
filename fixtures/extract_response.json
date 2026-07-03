@@ -1,0 +1,221 @@
+{
+  "pack_id": "alloys-v1",
+  "documents": [
+    {
+      "id": "doc_aging_2618a",
+      "title": "Long-term aging of S-phase in aluminum alloy 2618A",
+      "path": "sample_docs/aging_2618a.txt",
+      "source_url": "https://link.springer.com/article/10.1007/s10853-020-05740-x"
+    },
+    {
+      "id": "doc_sc_alloys_notes",
+      "title": "Scandium and zirconium additions in aluminum alloys",
+      "path": "sample_docs/sc_zr_notes.txt",
+      "source_url": "https://journals.sagepub.com/doi/10.1179/174328005X14311"
+    },
+    {
+      "id": "doc_internal_experiments",
+      "title": "Historical aging experiments summary",
+      "path": "sample_docs/internal_experiments.csv",
+      "source_url": null
+    }
+  ],
+  "claims": [
+    {
+      "id": "claim_001",
+      "text": "Aging at elevated temperature changes the precipitate state in alloy 2618A and affects hardness.",
+      "source_ref": "doc_aging_2618a",
+      "confidence": 0.88,
+      "evidence_type": "literature"
+    },
+    {
+      "id": "claim_002",
+      "text": "S-phase precipitates coarsen during long-term aging, which is linked to degradation of mechanical properties.",
+      "source_ref": "doc_aging_2618a",
+      "confidence": 0.86,
+      "evidence_type": "literature"
+    },
+    {
+      "id": "claim_003",
+      "text": "Shorter aging windows can preserve finer precipitates and maintain higher hardness than overaged conditions.",
+      "source_ref": "doc_internal_experiments",
+      "confidence": 0.74,
+      "evidence_type": "experiment"
+    },
+    {
+      "id": "claim_004",
+      "text": "Scandium-containing dispersoids can refine grain structure and contribute to strengthening in aluminum alloys.",
+      "source_ref": "doc_sc_alloys_notes",
+      "confidence": 0.82,
+      "evidence_type": "literature"
+    },
+    {
+      "id": "claim_005",
+      "text": "Scandium additions are expensive and may exceed the target cost limit for low-margin process changes.",
+      "source_ref": "doc_sc_alloys_notes",
+      "confidence": 0.7,
+      "evidence_type": "expert_note"
+    },
+    {
+      "id": "claim_006",
+      "text": "Zirconium can support thermally stable dispersoids and may partially substitute expensive scandium additions.",
+      "source_ref": "doc_sc_alloys_notes",
+      "confidence": 0.68,
+      "evidence_type": "literature"
+    },
+    {
+      "id": "claim_007",
+      "text": "The current corpus does not contain direct measurements of ductility loss for every proposed process window.",
+      "source_ref": "doc_internal_experiments",
+      "confidence": 0.9,
+      "evidence_type": "data_gap"
+    }
+  ],
+  "entities": [
+    {
+      "id": "node_aging_time",
+      "kind": "factor",
+      "label": "aging time",
+      "tags": ["controllable"],
+      "properties": { "unit": "h" }
+    },
+    {
+      "id": "node_aging_temperature",
+      "kind": "factor",
+      "label": "aging temperature",
+      "tags": ["controllable"],
+      "properties": { "unit": "C" }
+    },
+    {
+      "id": "node_sc_addition",
+      "kind": "factor",
+      "label": "scandium addition",
+      "tags": ["controllable"],
+      "properties": { "unit": "wt_percent", "estimated_cost_delta_percent": 6.5 }
+    },
+    {
+      "id": "node_zr_addition",
+      "kind": "factor",
+      "label": "zirconium addition",
+      "tags": ["controllable"],
+      "properties": { "unit": "wt_percent", "estimated_cost_delta_percent": 2.5 }
+    },
+    {
+      "id": "node_precipitate_state",
+      "kind": "mechanism",
+      "label": "precipitate state",
+      "tags": [],
+      "properties": {}
+    },
+    {
+      "id": "node_grain_structure",
+      "kind": "mechanism",
+      "label": "grain structure",
+      "tags": [],
+      "properties": {}
+    },
+    {
+      "id": "node_hardness",
+      "kind": "property",
+      "label": "hardness",
+      "tags": ["kpi_proxy"],
+      "properties": { "unit": "HBW" }
+    },
+    {
+      "id": "node_strength",
+      "kind": "kpi",
+      "label": "strength",
+      "tags": ["kpi"],
+      "properties": { "unit": "MPa" }
+    },
+    {
+      "id": "node_ductility_loss",
+      "kind": "kpi",
+      "label": "ductility loss",
+      "tags": ["constraint"],
+      "properties": { "unit": "percent" }
+    },
+    {
+      "id": "node_cost",
+      "kind": "kpi",
+      "label": "cost",
+      "tags": ["constraint"],
+      "properties": { "unit": "percent" }
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge_001",
+      "src": "node_aging_time",
+      "dst": "node_precipitate_state",
+      "edge_type": "mechanism",
+      "mechanism": "precipitate_evolution",
+      "source_claims": ["claim_001", "claim_003"],
+      "polarity": "nonlinear"
+    },
+    {
+      "id": "edge_002",
+      "src": "node_aging_temperature",
+      "dst": "node_precipitate_state",
+      "edge_type": "mechanism",
+      "mechanism": "precipitate_evolution",
+      "source_claims": ["claim_001", "claim_002"],
+      "polarity": "nonlinear"
+    },
+    {
+      "id": "edge_003",
+      "src": "node_precipitate_state",
+      "dst": "node_hardness",
+      "edge_type": "mechanism",
+      "mechanism": "precipitation_strengthening",
+      "source_claims": ["claim_001", "claim_003"],
+      "polarity": "positive"
+    },
+    {
+      "id": "edge_004",
+      "src": "node_hardness",
+      "dst": "node_strength",
+      "edge_type": "proxy",
+      "mechanism": "hardness_strength_proxy",
+      "source_claims": ["claim_003"],
+      "polarity": "positive"
+    },
+    {
+      "id": "edge_005",
+      "src": "node_sc_addition",
+      "dst": "node_grain_structure",
+      "edge_type": "mechanism",
+      "mechanism": "grain_refinement",
+      "source_claims": ["claim_004"],
+      "polarity": "positive"
+    },
+    {
+      "id": "edge_006",
+      "src": "node_grain_structure",
+      "dst": "node_strength",
+      "edge_type": "mechanism",
+      "mechanism": "grain_structure_strengthening",
+      "source_claims": ["claim_004"],
+      "polarity": "positive"
+    },
+    {
+      "id": "edge_007",
+      "src": "node_sc_addition",
+      "dst": "node_cost",
+      "edge_type": "tradeoff",
+      "mechanism": "material_cost",
+      "source_claims": ["claim_005"],
+      "polarity": "negative"
+    },
+    {
+      "id": "edge_008",
+      "src": "node_zr_addition",
+      "dst": "node_sc_addition",
+      "edge_type": "substitution",
+      "mechanism": "partial_substitution",
+      "source_claims": ["claim_006"],
+      "polarity": "positive"
+    }
+  ]
+}
+

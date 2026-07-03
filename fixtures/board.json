@@ -1,0 +1,138 @@
+{
+  "snapshot": {
+    "id": "snapshot_demo_001",
+    "hash": "demo-hash-001",
+    "pack_id": "alloys-v1"
+  },
+  "kpi_contract": {
+    "target": {
+      "metric": "strength",
+      "direction": "increase",
+      "minimum_delta_percent": 10
+    },
+    "constraints": [
+      { "metric": "cost", "op": "<=", "value": 5, "unit": "percent" },
+      { "metric": "ductility_loss", "op": "<=", "value": 3, "unit": "percent" }
+    ],
+    "weights_override": {},
+    "excluded_factors": []
+  },
+  "hypotheses": [
+    {
+      "id": "hyp_001",
+      "title": "Tune aging window to preserve fine precipitates",
+      "summary": "Adjust aging time and temperature to improve precipitate strengthening while avoiding overaging.",
+      "status": "recommended",
+      "rank": 1,
+      "score_total": 0.83,
+      "score_breakdown": {
+        "kpi_impact": 0.86,
+        "evidence": 0.88,
+        "plausibility": 0.86,
+        "cost": 0.92,
+        "risk": 0.66,
+        "novelty": 0.45
+      },
+      "trace": ["claim_001", "claim_002", "claim_003"],
+      "source_nodes": ["node_aging_time", "node_aging_temperature", "node_precipitate_state", "node_hardness", "node_strength"],
+      "risks": [
+        "Process window may be alloy-specific.",
+        "Ductility impact is not fully covered by current evidence."
+      ],
+      "missing_evidence": ["Direct ductility measurements for the proposed aging window."],
+      "doe_plan": {
+        "objective": "Verify strength, hardness and ductility after adjusted aging.",
+        "factors": ["aging temperature", "aging time"],
+        "measurements": ["yield strength", "hardness", "elongation", "cost delta"],
+        "minimum_runs": 6
+      }
+    },
+    {
+      "id": "hyp_002",
+      "title": "Use partial Zr substitution to reduce expensive Sc dependency",
+      "summary": "Use zirconium-supported dispersoids as a cheaper route toward stable strengthening effects.",
+      "status": "watch",
+      "rank": 2,
+      "score_total": 0.71,
+      "score_breakdown": {
+        "kpi_impact": 0.72,
+        "evidence": 0.67,
+        "plausibility": 0.74,
+        "cost": 0.82,
+        "risk": 0.58,
+        "novelty": 0.64
+      },
+      "trace": ["claim_004", "claim_006"],
+      "source_nodes": ["node_zr_addition", "node_sc_addition", "node_grain_structure", "node_strength"],
+      "risks": [
+        "Substitution effect is supported indirectly.",
+        "Requires validation for the target alloy family."
+      ],
+      "missing_evidence": ["Direct comparison of Sc-only and Zr-assisted routes in the same processing window."],
+      "doe_plan": {
+        "objective": "Compare baseline, low-Sc and Zr-assisted variants under the same aging schedule.",
+        "factors": ["Zr addition", "Sc addition", "aging time"],
+        "measurements": ["yield strength", "hardness", "elongation", "cost delta"],
+        "minimum_runs": 9
+      }
+    },
+    {
+      "id": "hyp_003",
+      "title": "Increase Sc addition for grain-structure strengthening",
+      "summary": "Use scandium addition to refine grain structure and improve strength.",
+      "status": "rejected_by_constraints",
+      "rank": 3,
+      "score_total": 0.62,
+      "score_breakdown": {
+        "kpi_impact": 0.8,
+        "evidence": 0.78,
+        "plausibility": 0.82,
+        "cost": 0.25,
+        "risk": 0.55,
+        "novelty": 0.42
+      },
+      "trace": ["claim_004", "claim_005"],
+      "source_nodes": ["node_sc_addition", "node_grain_structure", "node_strength", "node_cost"],
+      "risks": [
+        "Estimated cost delta exceeds the hard constraint.",
+        "Supply and procurement risk may be high."
+      ],
+      "missing_evidence": ["Exact cost model for target production scale."],
+      "doe_plan": {
+        "objective": "Only run if cost constraint is relaxed or cheaper substitution is available.",
+        "factors": ["Sc addition"],
+        "measurements": ["yield strength", "grain size", "cost delta"],
+        "minimum_runs": 3
+      }
+    },
+    {
+      "id": "hyp_004",
+      "title": "Add ductility measurements as a required gate",
+      "summary": "The corpus lacks enough evidence about ductility loss, so DOE should gate all strength-focused hypotheses with elongation tests.",
+      "status": "needs_expert_review",
+      "rank": 4,
+      "score_total": 0.58,
+      "score_breakdown": {
+        "kpi_impact": 0.4,
+        "evidence": 0.9,
+        "plausibility": 0.76,
+        "cost": 0.95,
+        "risk": 0.72,
+        "novelty": 0.35
+      },
+      "trace": ["claim_007"],
+      "source_nodes": ["node_ductility_loss"],
+      "risks": [
+        "Ranking may overestimate strength options if ductility is not measured."
+      ],
+      "missing_evidence": ["Ductility loss data for each candidate processing route."],
+      "doe_plan": {
+        "objective": "Measure elongation for all candidate conditions before promotion to pilot.",
+        "factors": ["candidate hypothesis id"],
+        "measurements": ["elongation", "fracture mode", "yield strength"],
+        "minimum_runs": 4
+      }
+    }
+  ]
+}
+
