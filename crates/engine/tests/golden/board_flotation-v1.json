@@ -49,8 +49,8 @@
   "hypotheses": [
     {
       "id": "hyp_001",
-      "title": "Tune диаметр песковой насадки гидроциклона to improve извлекаемые потери element_28 с хвостами",
-      "summary": "Adjust диаметр песковой насадки гидроциклона to drive извлекаемые потери element_28 с хвостами through the traced causal path.",
+      "title": "Настроить «диаметр песковой насадки гидроциклона» для снижения «извлекаемые потери элемента 28 с хвостами»",
+      "summary": "Изменить «диаметр песковой насадки гидроциклона», чтобы повлиять на «извлекаемые потери элемента 28 с хвостами» по прослеженной причинной цепочке.",
       "status": "recommended",
       "rank": 1,
       "score_total": 0.8290000000000001,
@@ -99,12 +99,12 @@
       ],
       "missing_evidence": [],
       "doe_plan": {
-        "objective": "Validate the effect on извлекаемые потери element_28 с хвостами for the proposed change.",
+        "objective": "Validate the effect on извлекаемые потери элемента 28 с хвостами for the proposed change.",
         "factors": [
           "диаметр песковой насадки гидроциклона"
         ],
         "measurements": [
-          "извлекаемые потери element_28 с хвостами",
+          "извлекаемые потери элемента 28 с хвостами",
           "cost delta"
         ],
         "minimum_runs": 3
@@ -113,8 +113,8 @@
     },
     {
       "id": "hyp_002",
-      "title": "Tune диаметр мелющих шаров to improve извлекаемые потери element_28 с хвостами",
-      "summary": "Adjust диаметр мелющих шаров to drive извлекаемые потери element_28 с хвостами through the traced causal path.",
+      "title": "Настроить «диаметр мелющих шаров» для снижения «извлекаемые потери элемента 28 с хвостами»",
+      "summary": "Изменить «диаметр мелющих шаров», чтобы повлиять на «извлекаемые потери элемента 28 с хвостами» по прослеженной причинной цепочке.",
       "status": "recommended",
       "rank": 2,
       "score_total": 0.820275,
@@ -163,12 +163,12 @@
       ],
       "missing_evidence": [],
       "doe_plan": {
-        "objective": "Validate the effect on извлекаемые потери element_28 с хвостами for the proposed change.",
+        "objective": "Validate the effect on извлекаемые потери элемента 28 с хвостами for the proposed change.",
         "factors": [
           "диаметр мелющих шаров"
         ],
         "measurements": [
-          "извлекаемые потери element_28 с хвостами",
+          "извлекаемые потери элемента 28 с хвостами",
           "cost delta"
         ],
         "minimum_runs": 3
@@ -177,8 +177,8 @@
     },
     {
       "id": "hyp_003",
-      "title": "Tune скорость вращения классификатора to improve извлекаемые потери element_28 с хвостами",
-      "summary": "Adjust скорость вращения классификатора to drive извлекаемые потери element_28 с хвостами through the traced causal path.",
+      "title": "Настроить «скорость вращения классификатора» для снижения «извлекаемые потери элемента 28 с хвостами»",
+      "summary": "Изменить «скорость вращения классификатора», чтобы повлиять на «извлекаемые потери элемента 28 с хвостами» по прослеженной причинной цепочке.",
       "status": "recommended",
       "rank": 3,
       "score_total": 0.8170000000000001,
@@ -228,12 +228,12 @@
       ],
       "missing_evidence": [],
       "doe_plan": {
-        "objective": "Validate the effect on извлекаемые потери element_28 с хвостами for the proposed change.",
+        "objective": "Validate the effect on извлекаемые потери элемента 28 с хвостами for the proposed change.",
         "factors": [
           "скорость вращения классификатора"
         ],
         "measurements": [
-          "извлекаемые потери element_28 с хвостами",
+          "извлекаемые потери элемента 28 с хвостами",
           "cost delta"
         ],
         "minimum_runs": 3
@@ -242,8 +242,8 @@
     },
     {
       "id": "hyp_004",
-      "title": "Tune геометрия футеровки мельниц to improve извлекаемые потери element_28 с хвостами",
-      "summary": "Adjust геометрия футеровки мельниц to drive извлекаемые потери element_28 с хвостами through the traced causal path.",
+      "title": "Настроить «геометрия футеровки мельниц» для снижения «извлекаемые потери элемента 28 с хвостами»",
+      "summary": "Изменить «геометрия футеровки мельниц», чтобы повлиять на «извлекаемые потери элемента 28 с хвостами» по прослеженной причинной цепочке.",
       "status": "recommended",
       "rank": 4,
       "score_total": 0.7752749999999999,
@@ -293,12 +293,12 @@
       ],
       "missing_evidence": [],
       "doe_plan": {
-        "objective": "Validate the effect on извлекаемые потери element_28 с хвостами for the proposed change.",
+        "objective": "Validate the effect on извлекаемые потери элемента 28 с хвостами for the proposed change.",
         "factors": [
           "геометрия футеровки мельниц"
         ],
         "measurements": [
-          "извлекаемые потери element_28 с хвостами",
+          "извлекаемые потери элемента 28 с хвостами",
           "cost delta"
         ],
         "minimum_runs": 3
@@ -307,8 +307,8 @@
     },
     {
       "id": "hyp_005",
-      "title": "Tune автоматическое регулирование зазора дробилки to improve извлекаемые потери element_28 с хвостами",
-      "summary": "Adjust автоматическое регулирование зазора дробилки to drive извлекаемые потери element_28 с хвостами through the traced causal path.",
+      "title": "Настроить «автоматическое регулирование зазора дробилки» для снижения «извлекаемые потери элемента 28 с хвостами»",
+      "summary": "Изменить «автоматическое регулирование зазора дробилки», чтобы повлиять на «извлекаемые потери элемента 28 с хвостами» по прослеженной причинной цепочке.",
       "status": "recommended",
       "rank": 5,
       "score_total": 0.7703,
@@ -358,12 +358,12 @@
       ],
       "missing_evidence": [],
       "doe_plan": {
-        "objective": "Validate the effect on извлекаемые потери element_28 с хвостами for the proposed change.",
+        "objective": "Validate the effect on извлекаемые потери элемента 28 с хвостами for the proposed change.",
         "factors": [
           "автоматическое регулирование зазора дробилки"
         ],
         "measurements": [
-          "извлекаемые потери element_28 с хвостами",
+          "извлекаемые потери элемента 28 с хвостами",
           "cost delta"
         ],
         "minimum_runs": 3
@@ -372,8 +372,8 @@
     },
     {
       "id": "hyp_006",
-      "title": "Introduce тонкое грохочение после 2-й стадии (new capability) to improve извлекаемые потери element_28 с хвостами",
-      "summary": "тонкое грохочение после 2-й стадии is not yet available on this line; adding it opens a path to извлекаемые потери element_28 с хвостами.",
+      "title": "Внедрить «тонкое грохочение после 2-й стадии» (новая возможность) для «извлекаемые потери элемента 28 с хвостами»",
+      "summary": "«тонкое грохочение после 2-й стадии» пока недоступен на этой линии; его внедрение открывает путь к «извлекаемые потери элемента 28 с хвостами».",
       "status": "watch",
       "rank": 6,
       "score_total": 0.7443,
@@ -424,12 +424,12 @@
       ],
       "missing_evidence": [],
       "doe_plan": {
-        "objective": "Validate the effect on извлекаемые потери element_28 с хвостами for the proposed change.",
+        "objective": "Validate the effect on извлекаемые потери элемента 28 с хвостами for the proposed change.",
         "factors": [
           "тонкое грохочение после 2-й стадии"
         ],
         "measurements": [
-          "извлекаемые потери element_28 с хвостами",
+          "извлекаемые потери элемента 28 с хвостами",
           "cost delta"
         ],
         "minimum_runs": 3
@@ -438,8 +438,8 @@
     },
     {
       "id": "hyp_007",
-      "title": "Introduce магнитная сепарация пирротиновой фракции (new capability) to improve извлекаемые потери element_28 с хвостами",
-      "summary": "магнитная сепарация пирротиновой фракции is not yet available on this line; adding it opens a path to извлекаемые потери element_28 с хвостами.",
+      "title": "Внедрить «магнитная сепарация пирротиновой фракции» (новая возможность) для «извлекаемые потери элемента 28 с хвостами»",
+      "summary": "«магнитная сепарация пирротиновой фракции» пока недоступен на этой линии; его внедрение открывает путь к «извлекаемые потери элемента 28 с хвостами».",
       "status": "watch",
       "rank": 7,
       "score_total": 0.74153125,
@@ -488,12 +488,12 @@
       ],
       "missing_evidence": [],
       "doe_plan": {
-        "objective": "Validate the effect on извлекаемые потери element_28 с хвостами for the proposed change.",
+        "objective": "Validate the effect on извлекаемые потери элемента 28 с хвостами for the proposed change.",
         "factors": [
           "магнитная сепарация пирротиновой фракции"
         ],
         "measurements": [
-          "извлекаемые потери element_28 с хвостами",
+          "извлекаемые потери элемента 28 с хвостами",
           "cost delta"
         ],
         "minimum_runs": 3
@@ -502,8 +502,8 @@
     },
     {
       "id": "hyp_008",
-      "title": "Tune время агитации в контактных чанах to improve извлекаемые потери element_28 с хвостами",
-      "summary": "Adjust время агитации в контактных чанах to drive извлекаемые потери element_28 с хвостами through the traced causal path.",
+      "title": "Настроить «время агитации в контактных чанах» для снижения «извлекаемые потери элемента 28 с хвостами»",
+      "summary": "Изменить «время агитации в контактных чанах», чтобы повлиять на «извлекаемые потери элемента 28 с хвостами» по прослеженной причинной цепочке.",
       "status": "watch",
       "rank": 8,
       "score_total": 0.5702057919621749,
@@ -550,12 +550,12 @@
       ],
       "missing_evidence": [],
       "doe_plan": {
-        "objective": "Validate the effect on извлекаемые потери element_28 с хвостами for the proposed change.",
+        "objective": "Validate the effect on извлекаемые потери элемента 28 с хвостами for the proposed change.",
         "factors": [
           "время агитации в контактных чанах"
         ],
         "measurements": [
-          "извлекаемые потери element_28 с хвостами",
+          "извлекаемые потери элемента 28 с хвостами",
           "cost delta"
         ],
         "minimum_runs": 3
@@ -564,8 +564,8 @@
     },
     {
       "id": "hyp_009",
-      "title": "Tune плотность пульпы на входе в флотацию to improve извлекаемые потери element_28 с хвостами",
-      "summary": "Adjust плотность пульпы на входе в флотацию to drive извлекаемые потери element_28 с хвостами through the traced causal path.",
+      "title": "Настроить «плотность пульпы на входе в флотацию» для снижения «извлекаемые потери элемента 28 с хвостами»",
+      "summary": "Изменить «плотность пульпы на входе в флотацию», чтобы повлиять на «извлекаемые потери элемента 28 с хвостами» по прослеженной причинной цепочке.",
       "status": "watch",
       "rank": 9,
       "score_total": 0.5588453483521068,
@@ -611,12 +611,12 @@
       ],
       "missing_evidence": [],
       "doe_plan": {
-        "objective": "Validate the effect on извлекаемые потери element_28 с хвостами for the proposed change.",
+        "objective": "Validate the effect on извлекаемые потери элемента 28 с хвостами for the proposed change.",
         "factors": [
           "плотность пульпы на входе в флотацию"
         ],
         "measurements": [
-          "извлекаемые потери element_28 с хвостами",
+          "извлекаемые потери элемента 28 с хвостами",
           "cost delta"
         ],
         "minimum_runs": 3
@@ -625,8 +625,8 @@
     },
     {
       "id": "hyp_010",
-      "title": "Tune фронт флотации (время флотации) to improve извлекаемые потери element_28 с хвостами",
-      "summary": "Adjust фронт флотации (время флотации) to drive извлекаемые потери element_28 с хвостами through the traced causal path.",
+      "title": "Настроить «фронт флотации (время флотации)» для снижения «извлекаемые потери элемента 28 с хвостами»",
+      "summary": "Изменить «фронт флотации (время флотации)», чтобы повлиять на «извлекаемые потери элемента 28 с хвостами» по прослеженной причинной цепочке.",
       "status": "watch",
       "rank": 10,
       "score_total": 0.5063009386733416,
@@ -671,12 +671,12 @@
       ],
       "missing_evidence": [],
       "doe_plan": {
-        "objective": "Validate the effect on извлекаемые потери element_28 с хвостами for the proposed change.",
+        "objective": "Validate the effect on извлекаемые потери элемента 28 с хвостами for the proposed change.",
         "factors": [
           "фронт флотации (время флотации)"
         ],
         "measurements": [
-          "извлекаемые потери element_28 с хвостами",
+          "извлекаемые потери элемента 28 с хвостами",
           "cost delta"
         ],
         "minimum_runs": 3
@@ -685,8 +685,8 @@
     },
     {
       "id": "hyp_011",
-      "title": "Tune дозировка депрессора (Finfix) to improve извлекаемые потери element_28 с хвостами",
-      "summary": "Adjust дозировка депрессора (Finfix) to drive извлекаемые потери element_28 с хвостами through the traced causal path.",
+      "title": "Настроить «дозировка депрессора (Finfix)» для снижения «извлекаемые потери элемента 28 с хвостами»",
+      "summary": "Изменить «дозировка депрессора (Finfix)», чтобы повлиять на «извлекаемые потери элемента 28 с хвостами» по прослеженной причинной цепочке.",
       "status": "watch",
       "rank": 11,
       "score_total": 0.4984508865248227,
@@ -731,12 +731,12 @@
       ],
       "missing_evidence": [],
       "doe_plan": {
-        "objective": "Validate the effect on извлекаемые потери element_28 с хвостами for the proposed change.",
+        "objective": "Validate the effect on извлекаемые потери элемента 28 с хвостами for the proposed change.",
         "factors": [
           "дозировка депрессора (Finfix)"
         ],
         "measurements": [
-          "извлекаемые потери element_28 с хвостами",
+          "извлекаемые потери элемента 28 с хвостами",
           "cost delta"
         ],
         "minimum_runs": 3

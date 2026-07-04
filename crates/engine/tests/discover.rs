@@ -229,7 +229,7 @@ fn contradiction_operator_when_enabled() {
     let graph = Graph::build(&extract).unwrap();
     let board = discover(&graph, &contract, &pack);
     assert!(
-        board.hypotheses.iter().any(|h| h.title.contains("boundary condition")),
+        board.hypotheses.iter().any(|h| h.title.contains("граничное условие")),
         "contradiction-гипотеза должна появиться"
     );
 }

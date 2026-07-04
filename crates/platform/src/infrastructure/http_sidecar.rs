@@ -41,6 +41,8 @@ fn mime_of(path: &str) -> &'static str {
         "application/pdf"
     } else if path.ends_with(".csv") {
         "text/csv"
+    } else if path.ends_with(".docx") {
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     } else {
         "text/plain"
     }

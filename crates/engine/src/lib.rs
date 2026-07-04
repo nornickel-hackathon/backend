@@ -107,7 +107,7 @@ fn factor_labels(graph: &Graph, cand: &operators::Candidate) -> String {
         .map(|n| n.label.clone())
         .collect();
     if labels.is_empty() {
-        "the factor".to_string()
+        "фактор".to_string()
     } else {
         labels.join(" + ")
     }
@@ -125,17 +125,21 @@ fn lever_label(graph: &Graph, cand: &operators::Candidate) -> String {
         .unwrap_or_else(|| factor_labels(graph, cand))
 }
 
+// Формулировки — презентационная обвязка (generic verbs), не доменная семантика:
+// {lever}/{kpi} остаются параметрами из данных (core-discipline: доменные слова
+// в pack, не здесь). Русский язык выбран потому, что вся платформа — от UI до
+// демо и жюри — русскоязычная; см. docs/QA_DEBRIEF.md.
 fn title(graph: &Graph, cand: &operators::Candidate) -> String {
     let kpi = node_label(graph, &cand.kpi);
     let lever = lever_label(graph, cand);
     match cand.operator {
-        "mechanism_path" => format!("Tune {lever} to improve {kpi}"),
-        "substitution" => format!("Substitute {lever} on the path to {kpi}"),
-        "gap" => format!("Introduce {lever} (new capability) to improve {kpi}"),
-        "contradiction" => format!("Find the boundary condition affecting {kpi}"),
-        "analogy_transfer" => format!("Transfer a proven mechanism toward {kpi}"),
-        "uncovered_constraint" => format!("Add {kpi} measurement as a required gate"),
-        _ => format!("Hypothesis for {kpi}"),
+        "mechanism_path" => format!("Настроить «{lever}» для снижения «{kpi}»"),
+        "substitution" => format!("Заменить «{lever}» на пути к «{kpi}»"),
+        "gap" => format!("Внедрить «{lever}» (новая возможность) для «{kpi}»"),
+        "contradiction" => format!("Найти граничное условие, влияющее на «{kpi}»"),
+        "analogy_transfer" => format!("Перенести проверенный механизм на путь к «{kpi}»"),
+        "uncovered_constraint" => format!("Добавить измерение «{kpi}» как обязательный фильтр"),
+        _ => format!("Гипотеза по «{kpi}»"),
     }
 }
 
@@ -144,23 +148,23 @@ fn summary(graph: &Graph, cand: &operators::Candidate) -> String {
     let lever = lever_label(graph, cand);
     match cand.operator {
         "mechanism_path" => {
-            format!("Adjust {lever} to drive {kpi} through the traced causal path.")
+            format!("Изменить «{lever}», чтобы повлиять на «{kpi}» по прослеженной причинной цепочке.")
         }
         "substitution" => {
-            format!("Use {lever} as an alternative route toward {kpi} with the same effect.")
+            format!("Использовать «{lever}» как альтернативный путь к «{kpi}» с тем же эффектом.")
         }
         "gap" => format!(
-            "{lever} is not yet available on this line; adding it opens a path to {kpi}."
+            "«{lever}» пока недоступен на этой линии; его внедрение открывает путь к «{kpi}»."
         ),
         "contradiction" => {
-            format!("Two claims disagree on {kpi}; determine the condition where the effect flips.")
+            format!("Два источника противоречат друг другу по «{kpi}»; нужно определить граничное условие, при котором эффект меняет знак.")
         }
         "analogy_transfer" => {
-            format!("Transfer a mechanism proven elsewhere onto the path to {kpi}.")
+            format!("Перенести механизм, доказанный в другом месте, на путь к «{kpi}».")
         }
         "uncovered_constraint" => {
-            format!("The corpus lacks evidence for {kpi}; gate candidates with direct measurement.")
+            format!("В корпусе нет доказательств по «{kpi}»; кандидаты нужно фильтровать через прямое измерение.")
         }
-        _ => format!("Hypothesis addressing {kpi}."),
+        _ => format!("Гипотеза, затрагивающая «{kpi}»."),
     }
 }
